@@ -13,64 +13,16 @@
 
 		}
 
-		public function get_users(){
-			$response = array('type' => 'success', 
-							  'errormessage' => '',
-							  'users' => array());
-
-			$user = $this->globallib->authenticate();
-			if($user->num_rows() == 1){
-				$response['users'] = $this->users_model->get_users()->result_array();
-			} else {
-				$response['type'] = 'info';
-				$response['errormessage'] = 'User does not exists';	
-			}
-
-			echo json_encode($response);
-		}
-
 		public function login(){
-			$response = array('type' => 'success', 
-							  'errormessage' => '',
-							  'user' => array(),
-							  'access_rights' => array());
-
-			$user = $this->globallib->authenticate();
-			if($user->num_rows() == 1){
-				$user = $user->row();
-				$response['user'] = $this->globallib->authenticate()->row_array();
-			} else {
-				$response['type'] = 'error';
-				$response['errormessage'] = 'User does not exists';
-			}
-
-			echo json_encode($response);
+			
 		}
 
 		public function logout(){
-			$response = array('type' => 'success', 
-							  'errormessage' => '');
-
-			$user = $this->globallib->authenticate();
-			if($user->num_rows() == 1){
-				$user = $user->row();
-			} else {
-				$response['type'] = 'info';
-				$response['errormessage'] = 'User does not exists';
-			}
-
-			echo json_encode($response);	
+			//	
 		}
 
 		public function create_user(){
-			$response = array('type' => 'success', 
-							  'errormessage' => '',
-							  'id' => '',
-							  'client_current_datetime' => '');	
-
-			$user = $this->globallib->authenticate();
-			if($user->num_rows() == 1){
-				$user = $user->row();
+			if($GLOBALS['ready']){
 				$email_exists = $this->users_model->email_exists($this->input->post('email'));
 				$username_exists = $this->users_model->username_exists($this->input->post('username'));
 
@@ -101,23 +53,11 @@
 						$response['client_current_datetime'] = $data['date_created'];
 					}	
 				}
-			} else {
-				$response['type'] = 'info';
-				$response['errormessage'] = 'User does not exists';
 			}
-
-			echo json_encode($response);
 		}
 
 		public function update_user(){
-			$response = array('type' => 'success', 
-							  'errormessage' => '',
-							  'user' => array(),
-							  'client_current_datetime' => '');	
-
-			$user = $this->globallib->authenticate();
-			if($user->num_rows() == 1){
-				$user = $user->row();
+			if($GLOBALS['ready']){
 				$email_exists = $this->users_model->email_exists($this->input->post('email'));
 				$username_exists = $this->users_model->username_exists($this->input->post('username'));
 				$user_record = $this->users_model->get_user_by_fieldname('username', $this->input->post('username'))->row();
@@ -153,22 +93,11 @@
 						$response['user'] = $data;
 					}
 				}
-			} else {
-				$response['type'] = 'info';
-				$response['errormessage'] = 'User does not exists';
 			}
-
-			echo json_encode($response);
 		}
 
 		public function delete_user(){
-			$response = array('type' => 'success', 
-							  'errormessage' => '');	
-
-			$user = $this->globallib->authenticate();
-			if($user->num_rows() == 1){
-				$user = $user->row();
-				
+			if($GLOBALS['ready']){
 				$condition = array(
 					'id' => $this->input->post('user_id')
 				); 
@@ -178,12 +107,7 @@
 					$response['type'] = 'error';
 					$response['errormessage'] = $userrecord['message'];		
 				}
-			} else {
-				$response['type'] = 'info';
-				$response['errormessage'] = 'User does not exists';
 			}
-
-			echo json_encode($response);
 		}
 	}
 ?>

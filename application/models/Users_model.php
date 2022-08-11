@@ -105,6 +105,24 @@
 			return $this->db->query('select * from users where '. $fieldname . ' = "' . $value . '" limit 1');	
 		}
 
+		public function get_user_by_credentials_and_permission($user_id, $access_name){
+			$sql = 'select '.
+
+			       'a.*, '.
+			       'b.* '.
+
+			       'from users a '.
+
+			       'left join users_permissions b on b.user_type_id = a.user_type_id '.
+
+			       'where a.id = ' . $user_id . ' ' .
+			         'and b.access_name = "'. $access_name .'" '.
+			         'and b.access_value = 1';
+
+
+			return $this->db->query($sql);
+		}
+
 		public function email_exists($email){
 			$data = $this->db->query(
 				'select '.

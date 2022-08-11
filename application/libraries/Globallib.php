@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
 
 
-        function authenticate()
+        function authenticate($access_name = '')
         {
             $username = '';
             $password = '';
@@ -24,7 +24,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $password = $_SERVER['PHP_AUTH_PW'];    
             }
             
-            return $this->_CI->users_model->get_user_by_credentials($username, $password);
+            $user = $this->_CI->users_model->get_user_by_credentials($username, $password);
+            if($user->num_rows() == 1){
+                if(!empty($access_name)){
+                    return $this->_CI->users_model->get_user_by_credentials_and_permission($user->id, $access_name);  
+                } else {
+                    return $user;
+                }
+            } else {
+                return $user;
+            }
         }
     }
 ?>

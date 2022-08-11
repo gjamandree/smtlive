@@ -5,7 +5,7 @@ class Home extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('home');
+		$this->load->view('login');
 	}
 
 	public function test_post(){
@@ -21,7 +21,7 @@ class Home extends CI_Controller {
 	}
 
 	public function test_login(){
-		$user = $this->globallib->authenticate('usertypesadd');
+		$user = $this->globallib->authenticate('');
 	}
 	
 }
