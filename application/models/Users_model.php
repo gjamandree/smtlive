@@ -97,8 +97,8 @@
 			return $this->db->query('select * from users where id = ' . $user_id);
 		}
 
-		public function get_user_by_credentials($username, $password){
-			return $this->db->query('select * from users where username = "'. $username .'" and password = "'. $password .'"');	
+		public function get_user_by_credentials($email, $password){
+			return $this->db->query('select * from users where email = "'. $email .'" and password = "'. $password .'"');	
 		}
 
 		public function get_user_by_fieldname($fieldname, $value){

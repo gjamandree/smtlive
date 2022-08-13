@@ -5,7 +5,11 @@ class Home extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('login');
+		if(!$this->session->has_userdata('current_user')){
+			$this->load->view('login');
+		} else {
+			$this->load->view('index');
+		}
 	}
 
 	public function test_post(){
